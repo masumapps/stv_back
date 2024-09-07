@@ -1,10 +1,95 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@font-face {
+  font-family: 'Circular';
 
-/*
-! tailwindcss v3.4.10 | MIT License | https://tailwindcss.com
-*/
+  src: url(./../Fonts/CircularStd-Medium.woff2) format("woff2");
+
+  font-weight: normal;
+}
+
+@font-face {
+  font-family: 'Circular';
+
+  src: url(./../Fonts/CircularStd-Bold.woff2) format("woff2");
+
+  font-weight: bold;
+}
+
+@font-face {
+  font-family: 'Circular';
+
+  src: url(./../Fonts/CircularStd-Book.woff2) format("woff2");
+
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: 'Varela';
+
+  src: url(./../Fonts/VarelaRound-Regular.ttf) format("opentype");
+
+  font-weight: normal;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Varela";
+}
+
+body, #root {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  width: 100vw;
+  height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.bodyWrap {
+  width: calc(100% - 290px);
+  height: calc(100% - 100px);
+  left: 250px;
+  top: 80px;
+  background-color: #F2F4FA;
+  border-radius: 50px;
+}
+
+.maincolor {
+  color: #EF5F63;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.disabledEvent {
+  pointer-events: none;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+/* responsive  */
+
+@media screen and (max-width: 1024px) {
+  body, #root {
+    height: auto;
+    width: auto;
+  }
+
+  .bodyWrap {
+    width: 100%;
+    left: 0;
+    position: relative !important;
+    justify-content: unset !important;
+  }
+}
+
+/* ! tailwindcss v3.4.10 | MIT License | https://tailwindcss.com  */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -547,139 +632,4 @@ video {
   --tw-contain-layout:  ;
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
-}
-
-.relative {
-  position: relative;
-}
-
-.z-10 {
-  z-index: 10;
-}
-
-.ml-80 {
-  margin-left: 20rem;
-}
-
-.mr-20 {
-  margin-right: 5rem;
-}
-
-.flex {
-  display: flex;
-}
-
-.table {
-  display: table;
-}
-
-.grid {
-  display: grid;
-}
-
-.h-10 {
-  height: 2.5rem;
-}
-
-.h-full {
-  height: 100%;
-}
-
-.w-10 {
-  width: 2.5rem;
-}
-
-.w-96 {
-  width: 24rem;
-}
-
-.w-full {
-  width: 100%;
-}
-
-.shrink {
-  flex-shrink: 1;
-}
-
-.flex-row {
-  flex-direction: row;
-}
-
-.flex-col {
-  flex-direction: column;
-}
-
-.items-center {
-  align-items: center;
-}
-
-.justify-items-center {
-  justify-items: center;
-}
-
-.space-x-2 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-.space-x-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
-  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-.space-x-6 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(1.5rem * var(--tw-space-x-reverse));
-  margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-.space-y-3 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
-}
-
-.space-y-5 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(1.25rem * var(--tw-space-y-reverse));
-}
-
-.bg-white {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
-.object-fill {
-  object-fit: fill;
-}
-
-.p-5 {
-  padding: 1.25rem;
-}
-
-.pb-5 {
-  padding-bottom: 1.25rem;
-}
-
-.pl-10 {
-  padding-left: 2.5rem;
-}
-
-.pt-10 {
-  padding-top: 2.5rem;
-}
-
-.pt-20 {
-  padding-top: 5rem;
-}
-
-.font-bold {
-  font-weight: 700;
-}
-
-.filter {
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }

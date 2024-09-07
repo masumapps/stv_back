@@ -2,14 +2,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./Styles/homepage.css";
+import { AuthLoginInfo } from "../AuthComponents/AuthLogin";
 import { Buffer } from "buffer";
 import { Button } from "@mui/material";
-
 //require("dotenv").config();
 
 function Homepage() {
   const [dashboardData, setDashboardData] = useState({});
-  const [logMessage, setLogMessage] = useState("");
+  const [logMessage, setLogMessage] = useState(process.env.REACT_APP_URL);
 
   useEffect(() => {
     //  upload();
@@ -100,7 +100,7 @@ function Homepage() {
   }
 
   return (
-      <div className="bodyWrap dashboardPage">
+    <div className="bodyWrap dashboardPage">
       <div className="flex flex-col space-y-3">
         <h1>Last Sync:{logMessage}</h1>
         <Button variant="contained" onClick={() => syncLiveData()}>
