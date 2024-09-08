@@ -1,8 +1,8 @@
 "use client";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { TextField, Button, Switch, IconButton, Snackbar } from "@mui/material";
+import { TextField, Button, Snackbar } from "@mui/material";
 function NotificationPage() {
 
   
