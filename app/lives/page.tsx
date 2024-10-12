@@ -20,7 +20,7 @@ function Lives() {
       .get("/lives", { withCredentials: true })
       .then((res) => {
         if (res.data != null) {
-          setLivesData(res.data);
+          setLivesData(res.data.lives);
         }
       });
   }, [newLivesSubmitted]);

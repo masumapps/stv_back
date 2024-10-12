@@ -12,16 +12,11 @@ import Link from 'next/link'
 import { usePaging } from "../Components/PagingView";
 
 function Config() {
-  const [newUserPopup, setNewUserPopup] = useState(false);
 
   const [newConfigSubmitted, setNewConfigSubmitted] = useState(false);
   const [configData, setConfigData] = useState([]);
 
-  const [settingDetails, setSettingDetails] = useState({
-    id: -1,
-    name: "",
-    value: "",
-  });
+
 
   useEffect(() => {
     setNewConfigSubmitted(false);
@@ -71,16 +66,10 @@ function Config() {
                   <td>{category.value}</td>
                   <td>
                     <div className="flex space-x-3">
+                    <Link href={`/config/${category.id}`}>
                       <ReadMoreRounded
-                        onClick={() => {
-                          setSettingDetails({
-                            id: category.id,
-                            name: category.name,
-                            value: category.value,
-                          });
-                          setNewUserPopup(true);
-                        }}
                       />
+                      </Link>
                       <DeleteIcon onClick={() => handleDelete(category.id)} />
                     </div>
                   </td>
@@ -93,105 +82,23 @@ function Config() {
     );
   };
 
-  const AddNewSettingPopup = () => {
-    const addNewUser = () => {
-      axios
-        .post(
-          "/newsetting",
-          {
-            settingDetails: settingDetails,
-          },
-          { withCredentials: true }
-        )
-        .then((res) => {
-          if (res.data === "success") {
-            setSettingDetails({
-              id: -1,
-              name: "",
-              value: "",
-            });
-            setNewConfigSubmitted(true);
-            setNewUserPopup(false);
-          }
-        });
-    };
-    return (
-      <Popup trigger={newUserPopup} setTrigger={setNewUserPopup}>
-        <div className="popupWrap bg-white z-10">
-          <div className="productsSummary">
-            <h3 className="productSummaryLeft">Add new Settings</h3>
-          </div>
-
-          <div className="addNewOrderWrap">
-            <div className="addNewOrderForm">
-              <div className="orderDetails">
-                <div className="input-group">
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    className="orderDetailsInput orderDetailsInputHalf"
-                    value={settingDetails.name}
-                    onChange={(e) =>
-                      setSettingDetails({
-                        ...settingDetails,
-                        name: e.target.value,
-                      })
-                    }
-                    required="required"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Value"
-                    className="orderDetailsInput orderDetailsInputHalf"
-                    value={settingDetails.value}
-                    onChange={(e) =>
-                      setSettingDetails({
-                        ...settingDetails,
-                        value: e.target.value,
-                      })
-                    }
-                    required="required"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="submitWrap">
-            <div className="submitNewOrder">
-              <button
-                className="submitNewOrderBtn"
-                onClick={() => addNewUser()}
-              >
-                <AddCircleOutlineRoundedIcon />
-                <span className="addOrderText">Add</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </Popup>
-    );
-  };
-
   return (
     <div className="bodyWrap">
       <div className="contentOrderWrap clientsTableWrap">
         <div className="leftSide">
           <div className="orderNavWrap">
             <div className="addOrderWrap">
+              <Link href={"/config/new"}>
               <button
                 className="addOrder"
-                onClick={() => {
-                  setNewUserPopup(true);
-                }}
               >
                 <AddCircleOutlineRounded />
                 <span className="addOrderText">Add</span>
               </button>
+              </Link>
             </div>
           </div>
           <div className="orderWrap">
-            <AddNewSettingPopup />
             <ConfigTable />
           </div>
         </div>

@@ -13,6 +13,7 @@ import "./Styles/order.css";
 import "./Styles/homepage.css";
 import "./Styles/main.css"
 import AuthProvider from "./context/AuthProvider";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <Sidebar></Sidebar>{children}
         </AuthProvider>
+        <SpeedInsights />
       </body>
     </html>
   );

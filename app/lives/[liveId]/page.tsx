@@ -140,6 +140,30 @@ function LivePage(
     }
   };
 
+  const updateLink = (link) => {
+    let array = liveData.links;
+    const newList = array.filter((item) => item.id !== link.id);
+    newList.push(link);
+
+    if (link.id !== -1) {
+      setLiveData({
+        ...liveData,
+        links: newList,
+      });
+      link.id &&
+        setDeletedLinks({
+          ...deletedLinks,
+          ids: [...deletedLinks.ids, link.id],
+        });
+    }
+
+
+   
+    
+  };
+
+
+
   return (
     <>
     
@@ -405,6 +429,7 @@ function LivePage(
                   })
                 }
                 onRemoveLink={(id)=>removeLink(id)}
+                onUpdateLink={(link)=>updateLink(link)}
                 onSave={()=>saveLiveChanges()}
               />
           </Box>

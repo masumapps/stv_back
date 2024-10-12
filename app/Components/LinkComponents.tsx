@@ -9,15 +9,14 @@ import {
     TableRow,
     TableCell,
     TableBody,
-    Switch,
-    IconButton,
   } from "@mui/material";
 
 const LinkComponents = (
-    {data,onAddLink,onRemoveLink,onSave}
+    {data,onAddLink,onUpdateLink,onRemoveLink,onSave}
 ) => {
 
     const [linkDetails, setLinkDetails] = useState({
+        id: -1,
         title: "",
         position: 1,
         drm: "",
@@ -55,6 +54,18 @@ const LinkComponents = (
                               <Button onClick={() => onRemoveLink(link.id)}>
                                 Delete
                               </Button>
+                              <Button onClick={() => 
+                                setLinkDetails({
+                                  id:link.id,
+                                  title:link.title,
+                                  position:link.position,
+                                  drm:decode(link.drm),
+                                  type:link.type,
+                                  url:decode(link.url)
+                                })
+                              }>
+                                Edit
+                                </Button>
                             </TableCell>
                           </TableRow>
                         ))}
@@ -121,9 +132,10 @@ const LinkComponents = (
                 <div className="">
                   <Button
                     onClick={() => {
-                     onAddLink(linkDetails)
+                    (linkDetails.id > 0) ? onUpdateLink(linkDetails) : onAddLink(linkDetails)
 
                       setLinkDetails({
+                        id: -1,
                         title: "",
                         position: 1,
                         drm: "",
@@ -132,7 +144,7 @@ const LinkComponents = (
                       });
                     }}
                   >
-                    Add Link
+                    {linkDetails.id > 0 ? "Update Link" : "Add Link"} 
                   </Button>
                 </div>
               </div>
@@ -150,7 +162,7 @@ const LinkComponents = (
 
 export function decode(data) {
     try{
-       return reverseString(atob(reverseString(data)))
+       return atob(reverseString(atob(data)))
     }
     catch(err){
        return  data

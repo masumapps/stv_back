@@ -67,6 +67,27 @@ function ChannelPage({ params }) {
         }
       });
   };
+  const updateLink = (link) => {
+    let array = channelData.links;
+    const newList = array.filter((item) => item.id !== link.id);
+    newList.push(link);
+
+    if (link.id !== -1) {
+      setChannelData({
+        ...channelData,
+        links: newList,
+      });
+      link.id &&
+        setDeletedLinks({
+          ...deletedLinks,
+          ids: [...deletedLinks.ids, link.id],
+        });
+    }
+
+
+   
+    
+  };
 
   const removeLink = (id) => {
     let array = channelData.links;
@@ -230,6 +251,7 @@ function ChannelPage({ params }) {
                   })
                 }
                 onRemoveLink={(id)=>removeLink(id)}
+                onUpdateLink={(link)=>updateLink(link)}
                 onSave={()=>saveChannelChanges()}
               />
             </Box>

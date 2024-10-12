@@ -1,12 +1,10 @@
 "use client";
 import axios from "axios";
-import { AddCircleOutlineRounded, ReadMoreRounded } from "@mui/icons-material";
-import Pagination from "../Components/Pagination";
+import {ReadMoreRounded } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 import Link from "next/link";
-import Image from "next/image";
 
 import { usePaging } from "../Components/PagingView";
 import ListPage from "../Components/ListPage";

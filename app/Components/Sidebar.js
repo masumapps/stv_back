@@ -24,7 +24,7 @@ const logout = () => {
 };
 
 const NavbarSection = ({ ctx, sidebarCollapse, handleOnClick }) => {
-  {console.log(ctx)}
+
   
   const HamburgerMenu = ({ handleOnClick }) => {
     return (
