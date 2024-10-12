@@ -10,7 +10,6 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import "./Styles/sidebar.css";
 
 const logout = () => {
   axios
