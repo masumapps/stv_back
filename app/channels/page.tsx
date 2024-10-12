@@ -18,7 +18,7 @@ function Channels() {
       .get("/channels", { withCredentials: true })
       .then((res) => {
         if (res.data != null) {
-          setChannelsData(res.data);
+          setChannelsData(res.data.channels);
         }
       });
   }, [newChannelsSubmitted]);

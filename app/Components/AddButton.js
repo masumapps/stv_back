@@ -1,3 +1,4 @@
+"use client"
 import { AddCircleOutlineRounded } from "@mui/icons-material"
 import { useRouter } from "next/navigation";
 

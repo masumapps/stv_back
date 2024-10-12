@@ -1,58 +1,61 @@
 "use client";
+import { useState } from "react";
 import axios from "axios";
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import { TextField, Button, Snackbar } from "@mui/material";
-function NotificationPage() {
+import { TextField, Button, Snackbar, Switch } from "@mui/material";
+import { useRouter } from "next/router";
 
-  
-  const [open, setOpen] = React.useState(false);
-  const initialNotificationData={
+function NotificationPage() {
+  const router = useRouter();
+  const initialNotificationData ={
     title: "",
     description: "",
     image: "",
     link: "",
+    stv: false,
   }
+  const [notificationData, setNotificationData] = useState(initialNotificationData);
 
-  const [notificationData, setNotificationData] = useState(
-    initialNotificationData
-  );
+  const [open, setOpen] = useState(false);
 
-  const saveCategoryChanges = () => {
-    axios
-      .post(
+  const saveCategoryChanges = async () => {
+    try {
+      const res = await axios.post(
         "/send_notification",
         {
-          notificationData: notificationData,
+          notificationData,
         },
         {
           withCredentials: true,
         }
-      )
-      .then((res) => {
-        if (res.data === "success") {
-          setOpen(true)
-          setNotificationData(initialNotificationData)
+      );
 
-        } else {
-          console.log(res.data);
-        }
-      });
+      if (res.data === "success") {
+        setOpen(true);
+        setNotificationData(initialNotificationData);
+        router.push("/notification");
+      } else {
+        console.log(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
-     <Snackbar
+      <Snackbar
         open={open}
         autoHideDuration={5000}
         onClose={() => setOpen(false)}
         message="Push notification sent successfully"
       />
-      <div className="bodyWrap ">
-        <div className="contentOrderWrap w-full pt-20  pl-10">
+      <div className="bodyWrap">
+        <div className="contentOrderWrap w-full pt-20 pl-10">
           <div className="inputGroup">
-            <Box className="flex flex-col space-y-5" component="form">
-         
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              saveCategoryChanges();
+            }}>
               <TextField
                 required
                 id="outlined-required"
@@ -102,15 +105,29 @@ function NotificationPage() {
                 style={{ width: 500 }}
               />
 
+              <div className="flex items-center">
+                <p>STV</p>
+                <Switch
+                  label="STV"
+                  checked={notificationData.stv}
+                  onChange={(event) => {
+                    setNotificationData({
+                      ...notificationData,
+                      stv: event.target.checked,
+                    });
+                  }}
+                />
+              </div>
+
               <div className="w-96 grid justify-items-center">
                 <Button
                   variant="contained"
-                  onClick={() => saveCategoryChanges()}
+                  type="submit"
                 >
                   Send
                 </Button>
               </div>
-            </Box>
+            </form>
           </div>
         </div>
       </div>
@@ -119,3 +136,4 @@ function NotificationPage() {
 }
 
 export default NotificationPage;
+

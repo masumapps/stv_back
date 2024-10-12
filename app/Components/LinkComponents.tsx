@@ -150,7 +150,7 @@ const LinkComponents = (
 
 export function decode(data) {
     try{
-       return reverseString(atob(reverseString(data)))
+       return atob(reverseString(atob(data)))
     }
     catch(err){
        return  data

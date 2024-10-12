@@ -19,8 +19,9 @@ function Lives() {
     axios
       .get("/lives", { withCredentials: true })
       .then((res) => {
+        console.log(res.data);
         if (res.data != null) {
-          setLivesData(res.data);
+          setLivesData(res.data.lives);
         }
       });
   }, [newLivesSubmitted]);

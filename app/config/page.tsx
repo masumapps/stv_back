@@ -1,36 +1,39 @@
 "use client";
 import axios from "axios";
 import { AddCircleOutlineRounded, ReadMoreRounded } from "@mui/icons-material";
-import Pagination from "../Components/Pagination";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
-import { IconButton } from "@mui/material";
 import Popup from "../Components/Popup";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import Link from 'next/link'
 
 import { usePaging } from "../Components/PagingView";
+import { getConfig } from "../api/LiveData";
 
 function Config() {
-  const [newUserPopup, setNewUserPopup] = useState(false);
-
-  const [newConfigSubmitted, setNewConfigSubmitted] = useState(false);
   const [configData, setConfigData] = useState([]);
+  const [configsUpdated, setConfigUpdated] = useState(false);
+  
+  const [popup, setPopup] = useState({
+    show: false,
+    id: null,
+  });
+  
+  const [newConfigPopup, setNewConfigPopup] = useState(false);
 
   const [settingDetails, setSettingDetails] = useState({
     id: -1,
     name: "",
     value: "",
   });
+  
 
   useEffect(() => {
-    setNewConfigSubmitted(false);
-    axios.get("/config", { withCredentials: true }).then((res) => {
-      if (res.data != null) {
-        setConfigData(res.data);
-      }
-    });
-  }, [newConfigSubmitted]);
+    setConfigUpdated(false);
+    getConfig().then((res) => {
+      setConfigData(res);
+    })  
+  
+  }, [configsUpdated]);
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure?"))
@@ -38,7 +41,7 @@ function Config() {
         .post("delete_setting", { configId: id }, { withCredentials: true })
         .then((res) => {
           if (res.data === "success") {
-            setNewConfigSubmitted(true);
+            setConfigUpdated(true);
           }
         });
   };
@@ -74,11 +77,11 @@ function Config() {
                       <ReadMoreRounded
                         onClick={() => {
                           setSettingDetails({
-                            id: category.id,
+                             id: category.id,
                             name: category.name,
-                            value: category.value,
+                           value: category.value,
                           });
-                          setNewUserPopup(true);
+                           setNewConfigPopup(true);
                         }}
                       />
                       <DeleteIcon onClick={() => handleDelete(category.id)} />
@@ -93,7 +96,13 @@ function Config() {
     );
   };
 
-  const AddNewSettingPopup = () => {
+  const UpdateSettingPopup = () => {
+    const [settingDetails, setSettingDetails] = useState({
+      id: -1,
+      name: "",
+      value: "",
+    });
+    
     const addNewUser = () => {
       axios
         .post(
@@ -110,13 +119,13 @@ function Config() {
               name: "",
               value: "",
             });
-            setNewConfigSubmitted(true);
-            setNewUserPopup(false);
+            setConfigUpdated(true);
+            setNewConfigPopup(false);
           }
         });
     };
     return (
-      <Popup trigger={newUserPopup} setTrigger={setNewUserPopup}>
+      <Popup trigger={newConfigPopup} setTrigger={setNewConfigPopup}>
         <div className="popupWrap bg-white z-10">
           <div className="productsSummary">
             <h3 className="productSummaryLeft">Add new Settings</h3>
@@ -173,6 +182,98 @@ function Config() {
     );
   };
 
+  
+  const AddNewSettingPopup = (props) => {
+    
+  const { id, name, value } = props;
+    
+    const [settingDetails, setSettingDetails] = useState({
+      id: id,
+      name: name,
+      value: value,
+    });
+    
+    const addNewUser = () => {
+      axios
+        .post(
+         id === -1 ? "/newsetting" : "/update_setting",
+          {
+            settingDetails: settingDetails,
+          },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          if (res.data === "success") {
+            setSettingDetails({
+              id: -1,
+              name: "",
+              value: "",
+            });
+            setConfigUpdated(true);
+            setNewConfigPopup(false);
+          }
+        });
+    };
+    return (
+      <Popup trigger={newConfigPopup} setTrigger={setNewConfigPopup}>
+        <div className="popupWrap bg-white z-10">
+          <div className="productsSummary">
+            <h3 className="productSummaryLeft">Add new Settings</h3>
+          </div>
+
+          <div className="addNewOrderWrap">
+            <div className="addNewOrderForm">
+              <div className="orderDetails">
+                <div className="input-group">
+                  <input
+                    type="text"
+                    placeholder="Name"
+                    className="orderDetailsInput orderDetailsInputHalf"
+                    value={settingDetails.name}
+                    onChange={(e) =>
+                      setSettingDetails({
+                        ...settingDetails,
+                        name: e.target.value,
+                      })
+                    }
+                    required="required"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Value"
+                    className="orderDetailsInput orderDetailsInputHalf"
+                    value={settingDetails.value}
+                    onChange={(e) =>
+                      setSettingDetails({
+                        ...settingDetails,
+                        value: e.target.value,
+                      })
+                    }
+                    required="required"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="submitWrap">
+            <div className="submitNewOrder">
+              <button
+                className="submitNewOrderBtn"
+                onClick={() => addNewUser()}
+              >
+                <AddCircleOutlineRoundedIcon />
+                <span className="addOrderText">{ id === -1 ? "Add" : "Update"}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </Popup>
+    );
+  };
+
+
+
   return (
     <div className="bodyWrap">
       <div className="contentOrderWrap clientsTableWrap">
@@ -182,7 +283,14 @@ function Config() {
               <button
                 className="addOrder"
                 onClick={() => {
-                  setNewUserPopup(true);
+                  setSettingDetails(
+                    {
+                      id: -1,
+                      name: "",
+                      value: "",
+                    }
+                  )
+                  setNewConfigPopup(true);
                 }}
               >
                 <AddCircleOutlineRounded />
@@ -191,7 +299,12 @@ function Config() {
             </div>
           </div>
           <div className="orderWrap">
-            <AddNewSettingPopup />
+            <AddNewSettingPopup 
+            id ={settingDetails.id}
+            name={settingDetails.name}
+            value={settingDetails.value}
+            />
+       
             <ConfigTable />
           </div>
         </div>
