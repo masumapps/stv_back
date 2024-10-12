@@ -92,7 +92,7 @@ function LivePage(
         })
         .then((res) => {
           if (res.data != null) {
-            console.log(res.data[1]);
+            console.log(res.data);
             setLiveData({
               live: res.data[0],
               links: res.data[1],

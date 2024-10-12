@@ -1,3 +1,4 @@
+"use client";
 import React, { useEffect, useState, useMemo } from "react";
 import "./Styles/pagination.css";
 import NavigateBeforeRoundedIcon from "@mui/icons-material/NavigateBeforeRounded";
@@ -7,7 +8,6 @@ function Pagination({
   total = 0,
   itemsPerPage = 10,
   currentPage = 1,
-  onPageChange,
 }) {
   const [totalPages, setTotalPages] = useState(0);
 
