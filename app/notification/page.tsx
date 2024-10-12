@@ -2,7 +2,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
-import { TextField, Button, Snackbar } from "@mui/material";
+import { TextField, Button, Snackbar, Switch } from "@mui/material";
 function NotificationPage() {
 
   
@@ -12,6 +12,7 @@ function NotificationPage() {
     description: "",
     image: "",
     link: "",
+    stv: false
   }
 
   const [notificationData, setNotificationData] = useState(
@@ -101,6 +102,21 @@ function NotificationPage() {
                 }
                 style={{ width: 500 }}
               />
+
+<div className="flex items-center">
+                <p>STV</p>
+                <Switch
+                  label="STV"
+                  checked={notificationData.stv}
+                  onChange={(event) => {
+                    setNotificationData({
+                      ...notificationData,
+                      stv: event.target.checked,
+                    })
+                    }
+                  }
+                />
+              </div>
 
               <div className="w-96 grid justify-items-center">
                 <Button

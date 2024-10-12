@@ -1,31 +1,37 @@
 "use client";
 import axios from "axios";
 import { AddCircleOutlineRounded, ReadMoreRounded } from "@mui/icons-material";
-import Pagination from "../Components/Pagination";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
-import { IconButton } from "@mui/material";
 import Popup from "../Components/Popup";
 import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
-import Link from 'next/link'
 
 import { usePaging } from "../Components/PagingView";
+import { getConfig } from "../api/LiveData";
+import Link from "next/link";
 
 function Config() {
 
   const [newConfigSubmitted, setNewConfigSubmitted] = useState(false);
   const [configData, setConfigData] = useState([]);
+  const [configsUpdated, setConfigUpdated] = useState(false);
+  
+  const [popup, setPopup] = useState({
+    show: false,
+    id: null,
+  });
+  
+  const [newConfigPopup, setNewConfigPopup] = useState(false);
 
 
 
   useEffect(() => {
-    setNewConfigSubmitted(false);
-    axios.get("/config", { withCredentials: true }).then((res) => {
-      if (res.data != null) {
-        setConfigData(res.data);
-      }
-    });
-  }, [newConfigSubmitted]);
+    setConfigUpdated(false);
+    getConfig().then((res) => {
+      setConfigData(res);
+    })  
+  
+  }, [configsUpdated]);
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure?"))
@@ -33,7 +39,7 @@ function Config() {
         .post("delete_setting", { configId: id }, { withCredentials: true })
         .then((res) => {
           if (res.data === "success") {
-            setNewConfigSubmitted(true);
+            setConfigUpdated(true);
           }
         });
   };

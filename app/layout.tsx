@@ -1,13 +1,10 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Sidebar from "./Components/Sidebar";
-import axios from 'axios';
-import "./Styles/sidebar.css";
-import "./Styles/pagination.css";
+
 import "./Styles/usersSetting.css";
 import "./Styles/popup.css";
 import "./Styles/adminPanel.css";
-import "./Styles/login.css";
 import "./Styles/login.css";
 import "./Styles/order.css";
 import "./Styles/homepage.css";
