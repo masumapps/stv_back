@@ -12,17 +12,11 @@ import Link from "next/link";
 
 function Config() {
 
-  const [newConfigSubmitted, setNewConfigSubmitted] = useState(false);
   const [configData, setConfigData] = useState([]);
   const [configsUpdated, setConfigUpdated] = useState(false);
   
-  const [popup, setPopup] = useState({
-    show: false,
-    id: null,
-  });
+ 
   
-  const [newConfigPopup, setNewConfigPopup] = useState(false);
-
 
 
   useEffect(() => {
@@ -57,6 +51,7 @@ function Config() {
               <th>Id</th>
               <th>Name</th>
               <th>Value</th>
+              <th>Krira</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -70,6 +65,7 @@ function Config() {
                   </td>
                   <td>{category.name}</td>
                   <td>{category.value}</td>
+                  <td>{category.krira}</td>
                   <td>
                     <div className="flex space-x-3">
                     <Link href={`/config/${category.id}`}>

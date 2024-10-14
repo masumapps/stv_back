@@ -12,7 +12,8 @@ function CategoryPage({params}) {
     const [categoryData, setCategoryData] = useState({
         id: -1,
         name: '',
-        value:''
+        value:'',
+        krira:''
     })
 
     useEffect(() => {
@@ -93,6 +94,19 @@ function CategoryPage({params}) {
                             <TextField
                                 label="Value"
                                 value={categoryData.value}
+                                onChange={(e) =>
+                                    setCategoryData({
+                                        ...categoryData,
+                                        value: e.target.value,
+                                    })
+                                }
+                                style={{ width: 500 }}
+                            />
+
+                            
+        <TextField
+                                label="Krira"
+                                value={categoryData.krira}
                                 onChange={(e) =>
                                     setCategoryData({
                                         ...categoryData,
