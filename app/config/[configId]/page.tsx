@@ -110,7 +110,7 @@ function CategoryPage({params}) {
                                 onChange={(e) =>
                                     setCategoryData({
                                         ...categoryData,
-                                        value: e.target.value,
+                                        krira: e.target.value,
                                     })
                                 }
                                 style={{ width: 500 }}
