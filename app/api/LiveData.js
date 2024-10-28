@@ -9,3 +9,24 @@ export async function getConfig(){
     const res = await axios.get(`${process.env.BASE_URL}/config`, { withCredentials: true });
     return res.data;
 }
+
+
+
+export async function getServerSideProps(context) {
+    let livesData = [];
+  
+    try {
+      const res = await axios.get(`${process.env.BASE_URL}/lives`, {
+        withCredentials: true,
+      });
+      livesData = res.data?.lives || [];
+    } catch (error) {
+      console.error("Failed to fetch lives:", error);
+    }
+  
+    return {
+      props: {
+        livesData,
+      },
+    };
+  }

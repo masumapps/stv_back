@@ -84,7 +84,7 @@ function Channels() {
                   </td>
                   <td>{channel.title}</td>
                   <td>
-                    <Image src={channel.thumbnail} alt=""className="w-10" />
+                    <Image src={channel.thumbnail} alt="channel thumbnail" className="w-10"  priority={false} />
                   </td>
                   <td>{channel.position}</td>
                   <td>{channel.published === 1 ? "🟢" : "🔴"}</td>

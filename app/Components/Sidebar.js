@@ -83,7 +83,7 @@ const SidebarSection = ({ ctx, sidebarCollapse }) => {
     >
       <div className="SidebarLogoWrap">
         <div className="SidebarLogo">
-          <Image src={logo} className="logo" alt="" />
+          <Image src={logo} className="logo" alt="logo" priority />
         </div>
       </div>
 
