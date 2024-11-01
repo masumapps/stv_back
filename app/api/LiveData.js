@@ -14,7 +14,7 @@ export  async function getLive() {
     return res.data.lives;
 }
 export async function getConfig(){
-    const res = await axios.get(`${process.env.BASE_URL}/config`, , 
+    const res = await axios.get(`${process.env.BASE_URL}/config`, 
       {
          withCredentials: true,
          headers: {
@@ -27,7 +27,7 @@ export async function getConfig(){
 }
 
 export async function getChannels(){
-  const res = await axios.get(`${process.env.BASE_URL}/channels`, , 
+  const res = await axios.get(`${process.env.BASE_URL}/channels`,
     {
        withCredentials: true,
        headers: {
