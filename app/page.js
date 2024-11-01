@@ -51,7 +51,6 @@ function Homepage() {
     });
   };
 
-  {console.log(process.env.GITHUB_TOKEN)}
   async function upload(path, content) {
     const message = "pushed";
     const owner = process.env.OWNER;

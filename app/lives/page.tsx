@@ -1,10 +1,7 @@
-import { EditRounded, ReadMoreRounded } from "@mui/icons-material";
-import Link from "next/link";
+
 import ListPage from "../Components/ListPage";
 import "./../Styles/popup.css";
 import { getLive } from "../api/LiveData";
-import DeleteButton from "../Components/buttons/DeleteButton";
-import { IconButton } from "@mui/material";
 import { TableAction } from "../Components/TableAction";
 
 async function Lives() {
@@ -40,6 +37,7 @@ async function Lives() {
                     href={`/lives/${live.id}`}
                     type="live"
                     id={live.id}
+                    page="lives"
                     />
                   </td>
                 </tr>

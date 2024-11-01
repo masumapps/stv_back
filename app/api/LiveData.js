@@ -2,17 +2,29 @@
 import axios from "axios";
 
 export  async function getLive() {
-    const res = await axios.get(`${process.env.BASE_URL}/lives`, { withCredentials: true });
-    return res.data.lives;
+    const data = await fetch(`https://api.soccerytv.app/lives`, {
+      cache: "no-cache",
+      method: "GET",
+    })
+
+    const res = await data.json();
+    
+    return await res.lives;
 }
 export async function getConfig(){
-    const res = await axios.get(`${process.env.BASE_URL}/config`, { withCredentials: true });
-    return res.data;
+    const data = await fetch(`${process.env.BASE_URL}/config`, {
+      cache: "no-cache"
+    })
+    return await await data.json();
 }
 
 export async function getChannels(){
-  const res = await axios.get(`${process.env.BASE_URL}/channels`, { withCredentials: true });
-  return res.data.channels;
+  const data = await fetch(`${process.env.BASE_URL}/channels`, {
+    cache: "no-cache"
+  })
+  const res = await data.json();
+ 
+  return await res.channels;
 }
 
 
