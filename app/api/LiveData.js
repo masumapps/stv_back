@@ -1,8 +1,7 @@
 "use server"
 import axios from "axios";
-
 export  async function getLive() {
-    const data = await fetch(`https://api.soccerytv.app/lives`, {
+    const data = await fetch(`${process.env.BASE_URL}/lives`, {
       cache: "no-cache",
       method: "GET",
     })
