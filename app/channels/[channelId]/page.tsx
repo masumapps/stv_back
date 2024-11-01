@@ -2,18 +2,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
-import Select from "react-select";
-import {
-  TextField,
-  Switch,
-  IconButton,
-} from "@mui/material";
+import { Select, SelectItem } from "@nextui-org/select";
+import { TextField, Switch, IconButton } from "@mui/material";
 import { ArrowBack } from "@mui/icons-material";
 import LinkComponents from "../../Components/LinkComponents";
-import { useRouter } from "next/navigation";
-function ChannelPage({ params }) {
-  const router= useRouter()
-  const channelId = params.channelId;
+import { useParams, useRouter } from "next/navigation";
+import { ImagePreview } from "../../Components/Image";
+function ChannelPage() {
+  const router = useRouter();
+  const { channelId } = useParams();
   const initialChannel = {
     id: -1,
     title: "",
@@ -43,8 +40,12 @@ function ChannelPage({ params }) {
             categories: res.data[2],
           });
         }
+        
       });
   }, [channelId]);
+  {
+    console.log(channelData.channel.category_id)
+  }
 
   const saveChannelChanges = () => {
     const action = channelId === "new" ? "add_channel" : "update_channel";
@@ -61,7 +62,7 @@ function ChannelPage({ params }) {
       )
       .then((res) => {
         if (res.data === "success") {
-          router.back()
+          router.back();
         } else {
           console.log(res.data);
         }
@@ -83,12 +84,8 @@ function ChannelPage({ params }) {
           ids: [...deletedLinks.ids, link.id],
         });
     }
-
-
-   
-    
   };
-
+  const [value, setValue] = React.useState("");
   const removeLink = (id) => {
     let array = channelData.links;
     const newList = array.filter((item) => item.id !== id);
@@ -105,6 +102,23 @@ function ChannelPage({ params }) {
         });
     }
   };
+
+  
+  const animals = [
+    { key: "cat", label: "Cat" },
+    { key: "dog", label: "Dog" },
+    { key: "elephant", label: "Elephant" },
+    { key: "lion", label: "Lion" },
+    { key: "tiger", label: "Tiger" },
+    { key: "giraffe", label: "Giraffe" },
+    { key: "dolphin", label: "Dolphin" },
+    { key: "penguin", label: "Penguin" },
+    { key: "zebra", label: "Zebra" },
+    { key: "shark", label: "Shark" },
+    { key: "whale", label: "Whale" },
+    { key: "otter", label: "Otter" },
+    { key: "crocodile", label: "Crocodile" },
+  ];
 
   return (
     <>
@@ -155,7 +169,7 @@ function ChannelPage({ params }) {
                       ...channelData,
                       channel: {
                         ...channelData.channel,
-                        position: e.target.value,
+                        position: Number(e.target.value),
                       },
                     })
                   }
@@ -167,6 +181,7 @@ function ChannelPage({ params }) {
 
               <div className="flex space-x-2 items-center">
                 <TextField
+                  className="w-1/2"
                   label="Thumbnail"
                   value={
                     channelData.channel ? channelData.channel.thumbnail : ""
@@ -181,49 +196,42 @@ function ChannelPage({ params }) {
                     })
                   }
                 />
-                <img
-                  className="h-10"
-                  src={channelData.channel ? channelData.channel.thumbnail : ""}
-                />
+
+                <ImagePreview src={channelData.channel.thumbnail} />
               </div>
-              <div className="flex space-x-6 items-center">
-                <p>Category</p>
-
+              <div className="r">
                 <Select
-                  value={{
-                    label: channelData?.channel?.category_title,
-                    value: channelData?.categories
-                      ? channelData.category_id
-                      : -1,
-                  }}
-                  onChange={(e) => {
-                    console.log(e);
+                  label="Category"
+                  variant="bordered"
+                  labelPlacement="outside"
+                  selectedKeys={[(channelData.channel.category_id).toString()]}
+                  className="max-w-xs"
+                  onChange={(e)=>{
+                    console.log(e.target.value)
 
+                    
                     setChannelData({
                       ...channelData,
                       channel: {
                         ...channelData.channel,
-                        category_id: e.value,
-                        category_title: e.label,
+                        category_id: e.target.value,
+                        category_title: "TODO",
                       },
                     });
                   }}
-                  options={
-                    channelData?.categories
-                      ? channelData.categories.map((category) => ({
-                          label: category.title,
-                          value: category.id,
-                        }))
-                      : []
-                  }
-                />
+                >
+                  {channelData.categories.map((category) => (
+                    <SelectItem key={category.id}>{category.title}</SelectItem>
+                  ))}
+                </Select>
+
+              
               </div>
 
               <div className="flex space-x-6 items-center">
                 <div className="flex items-center">
                   <p>Published</p>
                   <Switch
-                    label="Published"
                     checked={
                       channelData?.channel
                         ? channelData.channel.published
@@ -250,9 +258,9 @@ function ChannelPage({ params }) {
                     links: [...channelData.links, link],
                   })
                 }
-                onRemoveLink={(id)=>removeLink(id)}
-                onUpdateLink={(link)=>updateLink(link)}
-                onSave={()=>saveChannelChanges()}
+                onRemoveLink={(id) => removeLink(id)}
+                onUpdateLink={(link) => updateLink(link)}
+                onSave={() => saveChannelChanges()}
               />
             </Box>
           </div>

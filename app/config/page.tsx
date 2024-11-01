@@ -1,54 +1,21 @@
-"use client";
-import axios from "axios";
-import { AddCircleOutlineRounded, ReadMoreRounded } from "@mui/icons-material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useEffect, useState } from "react";
-import Popup from "../Components/Popup";
-import AddCircleOutlineRoundedIcon from "@mui/icons-material/AddCircleOutlineRounded";
 
-import { usePaging } from "../Components/PagingView";
+import "./../Styles/popup.css";
 import { getConfig } from "../api/LiveData";
-import Link from "next/link";
+import { TableAction } from "../Components/TableAction";
+import ListPage from "../Components/ListPage";
 
-function Config() {
+async function Config() {
+  const configData = await getConfig();
 
-  const [configData, setConfigData] = useState([]);
-  const [configsUpdated, setConfigUpdated] = useState(false);
-  
  
-  
-
-
-  useEffect(() => {
-    setConfigUpdated(false);
-    getConfig().then((res) => {
-      setConfigData(res);
-    })  
-  
-  }, [configsUpdated]);
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure?"))
-      axios
-        .post("delete_setting", { configId: id }, { withCredentials: true })
-        .then((res) => {
-          if (res.data === "success") {
-            setConfigUpdated(true);
-          }
-        });
-  };
 
   const ConfigTable = () => {
-    const {PagingView,computedData} = usePaging(configData);
-     
+
     return (
       <>
-        {" "}
-        <PagingView/>
         <table>
           <thead>
             <tr>
-              <th>Id</th>
               <th>Name</th>
               <th>Value</th>
               <th>Krira</th>
@@ -56,23 +23,19 @@ function Config() {
             </tr>
           </thead>
           <tbody>
-            {computedData.map((category, i) => {
+            {configData.map((config) => {
               return (
-                <tr key={i}>
-                  <td>
-                    <p className="maincolor">#</p>
-                    {category.id}
-                  </td>
-                  <td>{category.name}</td>
-                  <td>{category.value}</td>
-                  <td>{category.krira}</td>
+                <tr key={config.id}>
+                  <td>{config.name}</td>
+                  <td>{config.value}</td>
+                  <td>{config.krira}</td>
                   <td>
                     <div className="flex space-x-3">
-                    <Link href={`/config/${category.id}`}>
-                      <ReadMoreRounded
+                      <TableAction
+                        href={`/config/${config.id}`}
+                        type="setting"
+                        id={config.id}
                       />
-                      </Link>
-                      <DeleteIcon onClick={() => handleDelete(category.id)} />
                     </div>
                   </td>
                 </tr>
@@ -85,27 +48,9 @@ function Config() {
   };
 
   return (
-    <div className="bodyWrap">
-      <div className="contentOrderWrap clientsTableWrap">
-        <div className="leftSide">
-          <div className="orderNavWrap">
-            <div className="addOrderWrap">
-              <Link href={"/config/new"}>
-              <button
-                className="addOrder"
-              >
-                <AddCircleOutlineRounded />
-                <span className="addOrderText">Add</span>
-              </button>
-              </Link>
-            </div>
-          </div>
-          <div className="orderWrap">
-            <ConfigTable />
-          </div>
-        </div>
-      </div>
-    </div>
+    <ListPage path="/config/new">
+      <ConfigTable />
+    </ListPage>
   );
 }
 export default Config;

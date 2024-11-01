@@ -11,6 +11,8 @@ import { inter } from './fonts'
  import "./Styles/main.css"
 import AuthProvider from "./context/AuthProvider";
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import {NextUIProvider} from "@nextui-org/react";
+import {Providers} from "./providers";
 
 
 
@@ -24,13 +26,17 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   
+  
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className="light">
       <body >
       <AuthProvider>
+        
+      <Providers>
           <Sidebar></Sidebar>{children}
+          </Providers>
         </AuthProvider>
-        {/* <SpeedInsights /> */}
+       <SpeedInsights /> 
       </body>
     </html>
   );

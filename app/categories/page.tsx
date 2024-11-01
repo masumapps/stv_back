@@ -1,6 +1,7 @@
 "use client";
 import axios from "axios";
-import {ReadMoreRounded } from "@mui/icons-material";
+import "./../Styles/popup.css";
+import {EditRoadOutlined, EditRounded, ErrorOutline, HourglassEmpty, ReadMoreRounded } from "@mui/icons-material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import React, { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
@@ -8,6 +9,8 @@ import Link from "next/link";
 
 import { usePaging } from "../Components/PagingView";
 import ListPage from "../Components/ListPage";
+import Image from "next/image";
+import { TableAction } from "../Components/TableAction";
 function Categories() {
   const [newCategoriesSubmitted, setNewCategoriesSubmitted] = useState(false);
   const [categoriesData, setCategoriesData] = useState([]);
@@ -22,17 +25,6 @@ function Categories() {
         }
       });
   }, [newCategoriesSubmitted]);
-
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure?"))
-      axios
-        .post("delete_category", { categoryId: id }, { withCredentials: true })
-        .then((res) => {
-          if (res.data === "success") {
-            setNewCategoriesSubmitted(true);
-          }
-        });
-  };
 
   const CategoriesTable = () => {
     const { PagingView, computedData } = usePaging(categoriesData);
@@ -61,21 +53,23 @@ function Categories() {
                   </td>
                   <td>{category.title}</td>
                   <td>
-                    <img
+                   {category.logo ?
+                    <Image
                       src={category.logo}
                       className="w-10"
+                      width={100}
+                      height={100}
                       alt="category log"
-                    />
+                    />: <ErrorOutline/>}
                   </td>
                   <td>{category.position}</td>
                   <td>{category.published === 1 ? "🟢" : "🔴"}</td>
                   <td>
-                    <Link href={`/categories/${category.id}`}>
-                      <ReadMoreRounded />
-                    </Link>
-                    <IconButton onClick={() => handleDelete(category.id)}>
-                      <DeleteIcon />
-                    </IconButton>
+                    <TableAction
+                    href={`/categories/${category.id}`}
+                    type={"category"}
+                    id={category.id}
+                    />
                   </td>
                 </tr>
               );

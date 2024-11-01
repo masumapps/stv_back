@@ -10,6 +10,11 @@ export async function getConfig(){
     return res.data;
 }
 
+export async function getChannels(){
+  const res = await axios.get(`${process.env.BASE_URL}/channels`, { withCredentials: true });
+  return res.data.channels;
+}
+
 
 
 export async function getServerSideProps(context) {

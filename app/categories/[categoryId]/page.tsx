@@ -4,15 +4,16 @@ import React, { useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import { TextField, Button, Switch, IconButton } from '@mui/material'
 import { ArrowBack } from '@mui/icons-material'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
+import { ImagePreview } from '../../Components/Image';
 
-function CategoryPage({params}) {
+function CategoryPage() {
     const router = useRouter()
-    const  categoryId  = params.categoryId
+    const  {categoryId}  = useParams()
     const [categoryData, setCategoryData] = useState({
         id: -1,
         title: '',
-        published: 1,
+        published: true,
         position: 1,
         logo: '',
     })
@@ -115,21 +116,23 @@ function CategoryPage({params}) {
                                     }}
                                 />
                             </div>
-                            <TextField
-                                label="Logo"
-                                value={categoryData.logo}
-                                onChange={(e) =>
-                                    setLinkDetails({
-                                        ...linkDetails,
-                                        url: e.target.value,
-                                    })
-                                }
-                                style={{ width: 500 }}
-                            />
+                            <div className='flex items-center gap-x-1'>
+                                <TextField
+                                    label="Logo"
+                                    value={categoryData.logo}
+                                    onChange={(e) =>
+                                        setLinkDetails({
+                                            ...linkDetails,
+                                            url: e.target.value,
+                                        })
+                                    }
+                                    style={{ width: 500 }}
+                                />
+                                <ImagePreview src={categoryData.logo} />
+                            </div>
                             <div className="flex items-center">
                                 <p>Published</p>
                                 <Switch
-                                    label="Published"
                                     checked={categoryData.published}
                                     onChange={(event) => {
                                         setCategoryData({

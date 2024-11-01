@@ -3,23 +3,30 @@ import axios from "axios";
 import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import { TextField, Button, Snackbar, Switch } from "@mui/material";
+import "./../Styles/popup.css";
+import { Progress } from "@nextui-org/progress";
+import { useReportWebVitals } from "next/web-vitals";
 function NotificationPage() {
-
-  
+  useReportWebVitals((metric) => {
+    console.log(metric);
+  });
   const [open, setOpen] = React.useState(false);
-  const initialNotificationData={
+  const initialNotificationData = {
     title: "",
     description: "",
     image: "",
     link: "",
-    stv: false
-  }
+    stv: true,
+    krira: true,
+  };
 
   const [notificationData, setNotificationData] = useState(
     initialNotificationData
   );
+  const [showProgress, setShowProgress] = useState(false);
 
   const saveCategoryChanges = () => {
+    setShowProgress(true);
     axios
       .post(
         "/send_notification",
@@ -32,9 +39,9 @@ function NotificationPage() {
       )
       .then((res) => {
         if (res.data === "success") {
-          setOpen(true)
-          setNotificationData(initialNotificationData)
-
+          setOpen(true);
+          setNotificationData(initialNotificationData);
+          setShowProgress(false);
         } else {
           console.log(res.data);
         }
@@ -43,7 +50,7 @@ function NotificationPage() {
 
   return (
     <>
-     <Snackbar
+      <Snackbar
         open={open}
         autoHideDuration={5000}
         onClose={() => setOpen(false)}
@@ -52,8 +59,15 @@ function NotificationPage() {
       <div className="bodyWrap ">
         <div className="contentOrderWrap w-full pt-20  pl-10">
           <div className="inputGroup">
+            {showProgress && (
+              <Progress
+                size="sm"
+                isIndeterminate
+                aria-label="Loading..."
+                className="max-w-md mb-2"
+              />
+            )}
             <Box className="flex flex-col space-y-5" component="form">
-         
               <TextField
                 required
                 id="outlined-required"
@@ -103,18 +117,27 @@ function NotificationPage() {
                 style={{ width: 500 }}
               />
 
-<div className="flex items-center">
+              <div className="flex items-center">
                 <p>STV</p>
                 <Switch
-                  label="STV"
                   checked={notificationData.stv}
                   onChange={(event) => {
                     setNotificationData({
                       ...notificationData,
                       stv: event.target.checked,
-                    })
-                    }
-                  }
+                    });
+                  }}
+                />
+
+                <p>Krira</p>
+                <Switch
+                  checked={notificationData.krira}
+                  onChange={(event) => {
+                    setNotificationData({
+                      ...notificationData,
+                      krira: event.target.checked,
+                    });
+                  }}
                 />
               </div>
 

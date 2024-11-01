@@ -32,25 +32,19 @@ const LinkComponents = (
                     <Table>
                       <TableHead>
                         <TableRow key={"1"}>
+                        
+                        <TableCell align="center">Action</TableCell>
                           <TableCell align="center">Title</TableCell>
                           <TableCell align="center">Position</TableCell>
                           <TableCell align="center">Type</TableCell>
                           <TableCell align="center">DRM</TableCell>
                           <TableCell align="center">URL</TableCell>
-                          <TableCell align="center">Action</TableCell>
                         </TableRow>
                       </TableHead>
                       <TableBody>
                         {data.links?.map((link) => (
                           <TableRow key={link.id}>
-                            <TableCell align="center">{link.title}</TableCell>
-                            <TableCell align="center">
-                              {link.position}
-                            </TableCell>
-                            <TableCell align="center">{link.type}</TableCell>
-                            <TableCell align="center">{decode(link.drm)}</TableCell>
-                            <TableCell align="center">{decode(link.url)}</TableCell>
-                            <TableCell align="center">
+                               <TableCell align="center">
                               <Button onClick={() => onRemoveLink(link.id)}>
                                 Delete
                               </Button>
@@ -67,6 +61,12 @@ const LinkComponents = (
                                 Edit
                                 </Button>
                             </TableCell>
+                            <TableCell align="center">{link.title}</TableCell>
+                            <TableCell className='w-1' align="center">{link.position}</TableCell>
+                            <TableCell className="w-1" align="center">{link.type}</TableCell>
+                            <TableCell align="center">{decode(link.drm)}</TableCell>
+                            <TableCell align="center"><p className='overflow-x-auto min-w-fit'>{decode(link.url)}</p></TableCell>
+                         
                           </TableRow>
                         ))}
                       </TableBody>

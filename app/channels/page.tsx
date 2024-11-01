@@ -1,50 +1,24 @@
-"use client";
-import axios from "axios";
-import { ReadMoreRounded } from "@mui/icons-material";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import { IconButton } from "@mui/material";
-import { usePaging } from "../Components/PagingView";
+
+import { ErrorOutline } from "@mui/icons-material";
+import "./../Styles/popup.css";
 import ListPage from "../Components/ListPage"
+import Image from "next/image";
+import { TableAction } from "../Components/TableAction";
+import { getChannels } from "../api/LiveData";
 
-function Channels() {
-  const [newChannelsSubmitted, setNewChannelsSubmitted] = useState(false);
-  const [channelsData, setChannelsData] = useState([]);
+async function Channels() {
+  const channelData = await getChannels();
 
-  useEffect(() => {
-    setNewChannelsSubmitted(false);
-    axios
-      .get("/channels", { withCredentials: true })
-      .then((res) => {
-        if (res.data != null) {
-          setChannelsData(res.data.channels);
-        }
-      });
-  }, [newChannelsSubmitted]);
 
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure?"))
-      axios
-        .post("/delete_channel", { channelId: id }, { withCredentials: true })
-        .then((res) => {
-          if (res.data === "success") {
-            setNewChannelsSubmitted(true);
-          } else {
-            console.log(res.data);
-          }
-        });
-  };
+  
   
 
   const ChannelsTable = () => {
-    const {PagingView,computedData} = usePaging(channelsData);
-     
+   
 
     return (
       <>
         {" "}
-        <PagingView/>
         <table>
           <thead>
             <tr>
@@ -57,7 +31,7 @@ function Channels() {
             </tr>
           </thead>
           <tbody>
-            {computedData.map((channel, i) => {
+            {channelData.map((channel, i) => {
               return (
                 <tr key={i}>
                   <td>
@@ -66,17 +40,22 @@ function Channels() {
                   </td>
                   <td>{channel.title}</td>
                   <td>
-                    <img src={channel.thumbnail} alt="" className="w-10" />
+                   {channel.thumbnail?
+                    <Image src={channel.thumbnail}
+                     alt="" 
+                     width={50}
+                     height={50} 
+                     />
+                    :<ErrorOutline/>}
                   </td>
                   <td>{channel.position}</td>
                   <td>{channel.published === 1 ? "🟢" : "🔴"}</td>
                   <td>
-                    <Link href={`/channels/${channel.id}`}>
-                      <ReadMoreRounded />
-                    </Link>
-                    <IconButton onClick={() => handleDelete(channel.id)}>
-                      <DeleteIcon />
-                    </IconButton>
+                  <TableAction
+                    href={`/channels/${channel.id}`}
+                    type={"channel"}
+                    id={channel.id}
+                    />
                   </td>
                 </tr>
               );

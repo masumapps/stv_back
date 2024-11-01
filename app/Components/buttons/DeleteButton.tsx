@@ -3,6 +3,7 @@ import { IconButton } from "@mui/material"
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { DeleteOutline } from "@mui/icons-material";
 
   const DeleteButton =({type,id}) =>{
   const router = useRouter();
@@ -16,7 +17,7 @@ import axios from "axios";
     return (
        <div> 
        <IconButton onClick={handleDelete}>
-         <DeleteIcon />
+         <DeleteOutline />
        </IconButton>
         </div>
     )

@@ -13,9 +13,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import Image from "next/image";
-import { Clear, Edit } from "@mui/icons-material";
-
-import SearchBar from "../Components/SearchBar";
+import { AddAPhoto, Clear, EditRounded, Search } from "@mui/icons-material";
 
 const LogoPickerDialog = (props) => {
   const initalLogo = {
@@ -30,17 +28,21 @@ const LogoPickerDialog = (props) => {
   const [logoUpdated, setLogoUpdated] = useState(false);
   const [logo, setLogo] = useState(initalLogo);
   const [buttonText, setButtonText] = useState("Add");
-  
+
   const [filteredData, setFilteredData] = useState([]);
   const [query, setQuery] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
+  const [showForm, setShowForm] = useState(false);
 
-  const handleSearchChange = (newFilteredData) => {
-    setFilteredData(newFilteredData);
-  };
+
   useEffect(() => {
-    console.log(query)
-    setFilteredData(logos.filter((logo) => logo.title.toLowerCase().includes(query.toLowerCase())));
+    setFilteredData(
+      logos.filter((logo) =>
+        logo.title.toLowerCase().includes(query.toLowerCase())
+      )
+    );
   }, [query]);
+  
 
   useEffect(() => {
     axios
@@ -56,7 +58,19 @@ const LogoPickerDialog = (props) => {
       });
   }, [logoUpdated]);
 
-  const saveOrderChanges = () => {
+  const handleLogoEdit = (logo) => {
+    setLogo(logo);
+    setButtonText("Update");
+    setShowForm(true);
+  };
+
+  const handleShowForm = () => {
+    setLogo(initalLogo);
+    setButtonText("Add");
+    setShowForm(true);
+  }
+
+  const saveEditChanges = () => {
     if (logo.url) {
       axios
         .post(
@@ -71,9 +85,8 @@ const LogoPickerDialog = (props) => {
             setLogo(initalLogo);
             setButtonText("Add");
             setLogoUpdated(true);
-          }
-          else {
-            console.log(res.data)
+          } else {
+            console.log(res.data);
           }
         });
     }
@@ -90,75 +103,86 @@ const LogoPickerDialog = (props) => {
         onClose();
       }}
     >
-      <DialogTitle>Logos</DialogTitle>
+      <DialogTitle>
+        <div className="flex flex-row justify-between items-center">
+          <span>Logo Picker</span>
+          <div className="flex flex-row space-x-2 items-center">
+            <IconButton onClick={() => setShowSearch(!showSearch)}>
+              <Search />
+            </IconButton>
+            <IconButton onClick={() => handleShowForm()}>
+              <AddAPhoto />
+            </IconButton>
+           </div>
+           </div>
+      </DialogTitle>
       <DialogContent>
-        <div>
-          <div className="flex flex-row p-5 space-x-2 justify-center items-center">
-            {logo.title && <Clear
-            onClick={() => setLogo({ ...logo, title: "", url: "" })}/>}
-            <TextField
-              label="title"
-              value={logo.title}
-              onChange={(e) => setLogo({ ...logo, title: e.target.value })}
-            />
-            <TextField
-              label="Add New Logo"
-              fullWidth
-              value={logo.url}
-              onChange={(e) => setLogo({ ...logo, url: e.target.value })}
-            />
-            <Button variant="contained" onClick={() => saveOrderChanges()}>
-              {buttonText}
-            </Button>
-          </div>
-      
-          <div className="flex flex-row p-5 space-y-2">
-      <TextField
-      label="Search"
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
-      fullWidth
-      />
-      </div>
+        <div >
+          <div >
+            {showForm &&<div className="flex flex-row py-2 space-x-2 justify-center items-center
+            ">
+              {logo.title && (
+                <Clear onClick={() => setLogo({ ...logo, title: "", url: "" })} />
+              )}
+              <TextField
+                label="title"
+                value={logo.title}
+                onChange={(e) => setLogo({ ...logo, title: e.target.value })}
+              />
+              <TextField
+                label="Add New Logo"
+                fullWidth
+                value={logo.url}
+                onChange={(e) => setLogo({ ...logo, url: e.target.value })}
+              />
+              <Button variant="contained" onClick={() => saveEditChanges()}>
+                {buttonText}
+              </Button>
+            </div>}
+            {showSearch &&<div className="flex flex-row py-2 space-y-1">
+              <TextField
+                label="Search"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                fullWidth
+              />
+            </div>}
+        </div>
 
-          
-
-          <ImageList
-            sx={{ width: 500, height: 450 }}
-            cols={4}
-            rowHeight={121}
-          >
+          <div className="grid grid-cols-5 gap-3 h-1/6 overflow-y-auto ">
             {filteredData.map((item) => (
-              <ImageListItem key={item.url}>
-                <div>
-                  <img
-                    height={100}
-                    width={100}
-                    src={item.url}
-                    alt={item.url}
-                    loading="lazy"
-                    onClick={() => {
-                      onClick(item);
-                    }}
-                  />
-                  <ImageListItemBar
-                    className="w-100 justify-center"
-                    title={item.title}
-                    position="below"
-                    actionIcon={
-                      <Edit
-                        onClick={() => {
-                          setButtonText("Edit");
-                          setLogo(item);
-                        }}
-                      />
-                    }
-                    actionPosition="right"
-                  />
+              <div
+                key={item.id}
+                className="h-40 w-full max-w-full rounded-lg object-cover object-center relative px-2"
+              >
+                <Image
+                  height={0}
+                  width={0}
+                  sizes="100vw"
+                  style={{
+                    width: "160px",
+                    height: "6rem",
+                    objectFit: "cover",
+                    objectPosition: "center",
+                    borderRadius: "0.5rem",
+                    border: "1px solid #ddd",
+                  }}
+                  src={item.url}
+                  alt={item.title}
+                  loading="lazy"
+                  onClick={() => {
+                    onClick(item);
+                  }}
+                />
+                <div className="flex justify-between items-center bg-gray-50 px-2 border border-gray-200  rounded-lg my-2">
+                  <h1 className="line-clamp-1">{item.title}</h1>
+                  <IconButton onClick={() => handleLogoEdit(item)}>
+                    <EditRounded />
+                  </IconButton>
                 </div>
-              </ImageListItem>
+              </div>
             ))}
-          </ImageList>
+          </div>
         </div>
       </DialogContent>
       <DialogActions>

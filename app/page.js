@@ -4,51 +4,59 @@ import axios from "axios";
 import "./Styles/homepage.css";
 import { Buffer } from "buffer";
 import { Button } from "@mui/material";
+import "./Styles/popup.css";
+import {Progress} from "@nextui-org/progress";
 
 //require("dotenv").config();
 
 function Homepage() {
-  const [dashboardData, setDashboardData] = useState({});
   const [logMessage, setLogMessage] = useState("");
+  const [showProgress, setShowProgress] = useState(false);
 
   useEffect(() => {
     //  upload();
   }, []);
 
   const syncLiveData = () => {
+    showProgress(true)
     axios.get("/lives", { withCredentials: true }).then((res) => {
       if (res.data != null) upload("lives.json", res.data);
     });
   };
   const syncChannelData = () => {
+    setShowProgress(true)
     axios.get("/channels", { withCredentials: true }).then((res) => {
       if (res.data != null) upload("channels.json", res.data);
     });
   };
 
   const syncCategoryData = () => {
+    setShowProgress(true)
     axios.get("/categories", { withCredentials: true }).then((res) => {
       if (res.data != null) upload("categories.json", res.data);
     });
   };
 
   const syncLinkData = () => {
+    setShowProgress(true)
     axios.get("/links", { withCredentials: true }).then((res) => {
       if (res.data != null) upload("links.json", res.data);
     });
   };
 
   const syncConfigData = () => {
+    setShowProgress(true)
     axios.get("/config", { withCredentials: true }).then((res) => {
       if (res.data != null)upload("config.json", res.data);
     });
   };
 
+  {console.log(process.env.GITHUB_TOKEN)}
   async function upload(path, content) {
     const message = "pushed";
-    const owner = "masumapps";
-    const repo = "push_test";
-    const auth = "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";
+    const owner = process.env.OWNER;
+    const repo = process.env.REPO;
+    const auth = process.env.GITHUB_TOKEN;
 
     axios
       .get(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`, {
@@ -73,6 +81,8 @@ function Homepage() {
             }
           )
           .then((res) => {
+            
+           
             console.log(res.data);
             setLogMessage(res.data.content.name);
           });
@@ -95,6 +105,7 @@ function Homepage() {
           )
           .then((res) => {
             setLogMessage(res.data.content.name);
+            setShowProgress(false)
           });
       });
   }
@@ -102,6 +113,13 @@ function Homepage() {
   return (
       <div className="bodyWrap dashboardPage">
       <div className="flex flex-col space-y-3">
+        {showProgress &&
+        <Progress
+        size="sm"
+        isIndeterminate
+        aria-label="Loading..."
+        className="max-w-md"
+      />}
         <h1>Last Sync:{logMessage}</h1>
         <Button variant="contained" onClick={() => syncLiveData()}>
           Sync Lives

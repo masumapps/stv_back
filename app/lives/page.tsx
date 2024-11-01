@@ -5,6 +5,7 @@ import "./../Styles/popup.css";
 import { getLive } from "../api/LiveData";
 import DeleteButton from "../Components/buttons/DeleteButton";
 import { IconButton } from "@mui/material";
+import { TableAction } from "../Components/TableAction";
 
 async function Lives() {
   const livesData = await getLive();
@@ -19,7 +20,7 @@ async function Lives() {
               <th>Team Name</th>
               <th>Opnent Name</th>
               <th>Status</th>
-              <th></th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -34,12 +35,12 @@ async function Lives() {
                   <td>{live.team_b_name}</td>
                   <td>{live.published === 1 ? "🟢" : "🔴"}</td>
                   <td>
-                    <Link href={`/lives/${live.id}`}>
-                      <IconButton>
-                        <EditRounded />
-                      </IconButton>
-                    </Link>
-                    <DeleteButton type="live" id={live.id} />
+                  
+                    <TableAction
+                    href={`/lives/${live.id}`}
+                    type="live"
+                    id={live.id}
+                    />
                   </td>
                 </tr>
               );
