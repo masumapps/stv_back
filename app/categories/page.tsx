@@ -1,11 +1,8 @@
 "use client";
 import axios from "axios";
 import "./../Styles/popup.css";
-import {EditRoadOutlined, EditRounded, ErrorOutline, HourglassEmpty, ReadMoreRounded } from "@mui/icons-material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { ErrorOutline} from "@mui/icons-material";
 import React, { useEffect, useState } from "react";
-import { IconButton } from "@mui/material";
-import Link from "next/link";
 
 import { usePaging } from "../Components/PagingView";
 import ListPage from "../Components/ListPage";
@@ -69,6 +66,7 @@ function Categories() {
                     href={`/categories/${category.id}`}
                     type={"category"}
                     id={category.id}
+                    page={"categories"}
                     />
                   </td>
                 </tr>

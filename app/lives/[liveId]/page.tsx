@@ -120,8 +120,8 @@ function LivePage() {
       )
       .then((res) => {
         if (res.data === "success") {
-          revalidatePath("/lives");
-          revalidatePath("/lives/[liveId]");
+          revalidatePath("/lives","page");
+          revalidatePath("/lives/[liveId]","page");
           router.push("/lives");
         } else {
           console.log(res.data);

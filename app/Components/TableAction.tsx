@@ -3,7 +3,7 @@ import { IconButton } from "@mui/material";
 import Link from "next/link";
 import DeleteButton from "./buttons/DeleteButton";
 
-export const TableAction = ({ href,type,id }) => {
+export const TableAction = ({ href,type,id,page }) => {
   return (
     <div className="flex">
       <Link href={href}>
@@ -11,7 +11,7 @@ export const TableAction = ({ href,type,id }) => {
           <EditOutlined />
         </IconButton>
       </Link>
-      <DeleteButton type={type} id={id} />
+      <DeleteButton type={type} id={id}page={page} />
     </div>
   );
 };

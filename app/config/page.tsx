@@ -35,6 +35,7 @@ async function Config() {
                         href={`/config/${config.id}`}
                         type="setting"
                         id={config.id}
+                        page={"config"}
                       />
                     </div>
                   </td>

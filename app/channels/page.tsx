@@ -55,6 +55,7 @@ async function Channels() {
                     href={`/channels/${channel.id}`}
                     type={"channel"}
                     id={channel.id}
+                    page={"channels"}
                     />
                   </td>
                 </tr>
