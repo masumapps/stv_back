@@ -14,6 +14,7 @@ import LinkComponents from "../../Components/LinkComponents";
 import { useParams, useRouter } from "next/navigation";
 import { useReportWebVitals } from "next/web-vitals";
 import { ImagePreview } from "../../Components/Image";
+import { revalidatePath } from "next/cache";
 
 function LivePage() {
   useReportWebVitals((metric) => {
@@ -119,6 +120,8 @@ function LivePage() {
       )
       .then((res) => {
         if (res.data === "success") {
+          revalidatePath("/lives");
+          revalidatePath("/lives/[liveId]");
           router.push("/lives");
         } else {
           console.log(res.data);
