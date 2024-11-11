@@ -18,7 +18,7 @@ function Homepage() {
   }, []);
 
   const syncLiveData = () => {
-    showProgress(true)
+    setShowProgress(true)
     axios.get("/lives", { withCredentials: true }).then((res) => {
       if (res.data != null) upload("lives.json", res.data);
     });
@@ -120,6 +120,7 @@ function Homepage() {
         className="max-w-md"
       />}
         <h1>Last Sync:{logMessage}</h1>
+        
         <Button variant="contained" onClick={() => syncLiveData()}>
           Sync Lives
         </Button>

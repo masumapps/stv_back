@@ -30,7 +30,7 @@ async function Lives() {
                   </td>
                   <td>{live.team_a_name}</td>
                   <td>{live.team_b_name}</td>
-                  <td>{live.published === 1 ? "🟢" : "🔴"}</td>
+                  <td>{(live.published === 1 && new Date()<new Date(live.endTime)) ? "🟢" : new Date()<new Date(live.endTime)?"🔴":"🟡"}</td>
                   <td>
                   
                     <TableAction

@@ -17,7 +17,7 @@ async function Config() {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Value</th>
+              <th>Soccery</th>
               <th>Krira</th>
               <th>Actions</th>
             </tr>

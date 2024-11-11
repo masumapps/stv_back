@@ -85,7 +85,7 @@ function CategoryPage() {
                 }
               />
             <TextField
-              label="Value"
+              label="Soccery"
               value={categoryData.value}
               onChange={(e) =>
                 setCategoryData({
