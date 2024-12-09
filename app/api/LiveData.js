@@ -11,7 +11,7 @@ export  async function getLive() {
     return await res.lives;
 }
 export async function getConfig(){
-    const data = await fetch(`${process.env.BASE_URL}/config`, {
+    const data = await fetch(`${process.env.BASE_URL}/setting`, {
       cache: "no-cache"
     })
     return await await data.json();
