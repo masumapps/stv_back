@@ -46,7 +46,7 @@ function Homepage() {
 
   const syncConfigData = () => {
     setShowProgress(true)
-    axios.get("/config", { withCredentials: true }).then((res) => {
+    axios.get("/configs", { withCredentials: true }).then((res) => {
       if (res.data != null)upload("config.json", res.data);
     });
   };
